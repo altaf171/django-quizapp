@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+{% load cust_filters %}
+
+<div class="container pt-5 w-50">
+	<form method="POST">
+
+	{% csrf_token %}
+
+	{% for field in form %}
+		<div class="mb-3">
+			<label for="{{field.auto_id}}" class="form-label">{{field.label}}:</label>
+			{{field|aclasses:'form-control'|addplaceholder:'ding dong'}}
+			{% if field.help_text %}
+				<small id="{{field.auto_id}}Help" class="form-text help_text">{{field.help_text}}</small>
+			{% endif %}
+		</div>
+	{% endfor %}
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+
+</div>
+
+
+
+
+{% endblock body %}
+
