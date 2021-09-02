@@ -6,76 +6,98 @@ quiz running
 {% block body %}
 
 <div class="container quizes">
+    <form method="POST">
+        {% csrf_token %}
 
-<ul class="nav nav-pills mb-3" id="question-tab" role="tablist">
+        <ul class="nav nav-pills mb-3" id="question-tab" role="tablist">
 
-    {% for question in question_list %}
+            {% for question in question_list %}
 
-    {% if forloop.first %}
-    
-    
-    {% endif %}
-
-    {% if forloop.first %}
-
-    <li class="nav-item" role="presentation">
-        <button class="btn btn-success p-2 m-1 active" style="width:5vw" id="q_id-{{question.id}}-tab" data-bs-toggle="pill"
-            data-bs-target="#q_id-{{question.id}}" type="button" role="tab" aria-controls="q_id-{{question.id}}"
-            aria-selected="true">{{forloop.counter}}</button>
-    </li>
-    
-    {% else %}
+            {% if forloop.first %}
 
 
-    <li class="nav-item" role="presentation">
-        <button class="btn btn-success p-2 m-1 " style="width:5vw" id="q_id-{{question.id}}-tab" data-bs-toggle="pill"
-            data-bs-target="#q_id-{{question.id}}" type="button" role="tab" aria-controls="q_id-{{question.id}}"
-            aria-selected="false">{{forloop.counter}}</button>
-    </li>
+            {% endif %}
 
-    {% endif %}
+            {% if forloop.first %}
 
-    {% empty %}
-    <li>Sorry, there is no quiz available.</li>
+            <li class="nav-item" role="presentation">
+                <button class="btn btn-success p-2 m-1 active" style="width:5vw" id="q_id-{{question.id}}-tab"
+                    data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
+                    aria-controls="q_id-{{question.id}}" aria-selected="true">{{forloop.counter}}</button>
+            </li>
 
-    {% endfor %}
-
-</ul>
-<div class="tab-content" id="question-tabContent">
-
-    {% for question in question_list %}
-
-    {% if forloop.first %}
-    <div class="tab-pane fade active show" id="q_id-{{question.id}}" role="tabpanel" aria-labelledby="q_id-{{question.id}}-tab">
-    
-    {% else %}
-    <div class="tab-pane fade" id="q_id-{{question.id}}" role="tabpanel" aria-labelledby="q_id-{{question.id}}-tab">
-    
-    {% endif %}
+            {% else %}
 
 
-        <h4> {{question.question_text}}</h4>
+            <li class="nav-item" role="presentation">
+                <button class="btn btn-success p-2 m-1 " style="width:5vw" id="q_id-{{question.id}}-tab"
+                    data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
+                    aria-controls="q_id-{{question.id}}" aria-selected="false">{{forloop.counter}}</button>
+            </li>
 
+            {% endif %}
 
-        <ul>
-            {% for choice in question.choices.all %}
-            {% comment %} i have changes choice_set to choices {% endcomment %}
-
-            <li> {{choice.choice_text}} </li>
+            {% empty %}
+            <li>Sorry, there is no quiz available.</li>
 
             {% endfor %}
 
         </ul>
 
-    </div>
+        <div class="tab-content" id="question-tabContent">
 
-    {% endfor %}
+            {% for question in question_list %}
+
+                {% if forloop.first %}
+
+                    <div class="tab-pane fade active show" id="q_id-{{question.id}}" role="tabpanel"
+                    aria-labelledby="q_id-{{question.id}}-tab">
+
+                {% else %}
+                    <div class="tab-pane fade" id="q_id-{{question.id}}" role="tabpanel"
+                        aria-labelledby="q_id-{{question.id}}-tab">
+
+                {% endif %}
+
+                    <h5> Q. {{question.question_text}}</h5>
+
+                    <p>choices:</p>
+                    {% for choice in question.choices.all %}
+                        {% comment %} i have changes choice_set to choices {% endcomment %}
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q-{{question.id}}" id="{{choice.id}}">
+                            <label class="form-check-label" for="{{choice.id}}">
+                                {{choice.choice_text}}
+                            </label>
+                        </div>
+
+                    {% endfor %}
+
+
+                {% if forloop.last %}
+                
+                    <button type="submit" class="btn btn-outline-primary mt-5">Submit</button>
+                
+                {% endif %}
+
+
+                </div>
+            
+                
+            {% endfor %}
 
 
 
+            
 
-</div> 
+        </div>
+
+
+    </form>
 
 </div>
 
-{% endblock body %}
+
+
+    {% endblock body %}

@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.views import View
 from django.contrib import messages
 
 from .forms import NewUserForm
@@ -12,14 +12,18 @@ from .models import Question
 def starting_page(request):
     return render(request, 'quiz/index.html')
 
-def start_quiz(request):
-    question_list = Question.objects.order_by('id')
-    return render(request,'quiz/quizes.html' ,{'question_list':question_list})
+# def start_quiz(request):
+#     question_list = Question.objects.order_by('id')
+#     return render(request,'quiz/quizes.html' ,{'question_list':question_list})
 
+class StartQuizView(View):
+    def get(self, request, *args, **kwargs):
+        question_list = Question.objects.order_by('id')
+        return render(request,'quiz/quizes.html' ,{'question_list':question_list})
 
-# def quiz_detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'quiz/quiz-detail.html', {'question':question})
+    def post(self, request, *args, **kwargs):
+        return HttpResponse('POST request!')
+
 
 
 def register_request(request):
