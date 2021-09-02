@@ -1,11 +1,13 @@
+from typing import List
 from django.contrib.auth import authenticate, login
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib import messages
+from django.views.generic.base import TemplateView
 
 from .forms import NewUserForm
-from .models import Question
+from .models import Choice, Question
 # Create your views here.
 
 
@@ -21,9 +23,27 @@ class StartQuizView(View):
         question_list = Question.objects.order_by('id')
         return render(request,'quiz/quizes.html' ,{'question_list':question_list})
 
+    
     def post(self, request, *args, **kwargs):
-        return HttpResponse('POST request!')
+        no_of_correct_answers = 0
+        answered_dict ={}
+        for key,value in request.POST.items():
+            if key != 'csrfmiddlewaretoken':
+                question = get_object_or_404(Question,pk=int(key))
+                choice =  question.choices.get(pk=int(value))
+                print(question)
+                print(choice.is_answer)
 
+                if choice.is_answer :
+                    no_of_correct_answers += 1
+                    answered_dict.update({key:'correct'})
+                else:
+                    answered_dict.update({key:'incorrect'})
+
+
+        
+        print(answered_dict)
+        return render(request, 'quiz/result.html',{'data':answered_dict, 'correct_answers':no_of_correct_answers})
 
 
 def register_request(request):
