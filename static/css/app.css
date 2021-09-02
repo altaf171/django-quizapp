@@ -11113,9 +11113,10 @@ textarea.form-control-lg {
   }
 }
 :root {
-  --clr-neon:hsl(143, 90%, 46%);
-  --clr-bg: white;
-  --clr-btn-bg: hsl(120, 90%, 88%);
+  --clr-green-neon: hsl(143, 90%, 46%);
+  --clr-green-neon-bg: rgb(197, 252, 197);
+  --clr-body-bg: white;
+  --clr-btn-bg: hsla(120, 90%, 88%, 0.5);
 }
 
 *,
@@ -11125,11 +11126,11 @@ textarea.form-control-lg {
 }
 
 body {
-  background-color: var(--clr-bg);
+  background-color: var(--clr-body-bg);
 }
 
 a.nav-link {
-  color: var(--clr-neon) !important;
+  color: var(--clr-green-neon) !important;
 }
 
 .nav-link {
@@ -11143,26 +11144,25 @@ a.nav-link {
   place-items: center;
 }
 
-.random-quiz {
+.start-quiz-btn {
   font-size: 2rem;
-  color: var(--clr-neon);
+  color: var(--clr-green-neon);
   display: inline-block;
-  border: var(--clr-neon) 0.04em solid;
+  border: var(--clr-green-neon) 0.04em solid;
   cursor: pointer;
   text-decoration: none;
   padding: 0.25em 1em;
   border-radius: 0.25em;
   text-shadow: 0 0 0.125em rgba(255, 255, 255, 0.5), 0 0 0.125em currentColor;
-  box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
+  box-shadow: inset 0 0 0.5em 0 var(--clr-green-neon), 0 0 0.5em 0 var(--clr-green-neon);
   position: relative;
   /* transition: backgound-color 100ms linear; */
 }
-
-.random-quiz::before {
+.start-quiz-btn::before {
   pointer-events: none;
   content: "";
   position: absolute;
-  background: var(--clr-neon);
+  background: var(--clr-green-neon);
   top: 120%;
   left: 0;
   width: 100%;
@@ -11171,38 +11171,58 @@ a.nav-link {
   filter: blur(1em);
   opacity: 0.7;
 }
-
-.random-quiz:hover, .random-quiz:focus {
-  /* background-color: var(--clr-neon); */
-  color: var(--clr-btn-bg);
+.start-quiz-btn:hover, .start-quiz-btn:focus {
+  /* background-color: var(--clr-green-neon); */
+  color: var(--clr-green-neon-bg);
   text-shadow: none;
 }
-
-.random-quiz::after {
+.start-quiz-btn::after {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  box-shadow: 0 0 2em 0.5em var(--clr-neon);
-  background-color: var(--clr-neon);
+  box-shadow: 0 0 2em 0.5em var(--clr-green-neon);
+  background-color: var(--clr-green-neon);
   z-index: -1;
   opacity: 0;
   transition: opacity 100ms linear;
 }
-
-.random-quiz:hover::before {
+.start-quiz-btn:hover::after {
   opacity: 1;
 }
 
-.random-quiz:hover::after {
-  opacity: 1;
+.registration *,
+.login * {
+  color: var(--clr-green-neon) !important;
 }
-
-button {
-  color: var(--clr-neon) !important;
+.registration button,
+.login button {
+  margin: auto;
+  display: block !important;
   background-color: var(--clr-btn-bg) !important;
+  border-color: var(--clr-green-neon) !important;
+}
+.registration .card,
+.login .card {
+  width: 30vw;
+  margin: auto;
+  margin-top: 4rem;
+  align-items: center;
+}
+.registration .card .card-title,
+.login .card .card-title {
+  font-weight: 700;
+  font-size: x-large;
+  text-align: center;
+  padding-top: 1.8rem;
+}
+.registration .card .card-body,
+.login .card .card-body {
+  text-align: start;
+  padding: 1.5rem;
+  padding-bottom: 3rem;
 }
 
 /*# sourceMappingURL=app.css.map */

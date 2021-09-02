@@ -1,6 +1,13 @@
+
 from django import template
 from django.utils import safestring
 register = template.Library()
+
+'''
+not using this anymore because two filters not working together
+apparently value.as_widget converts the output into safestring format
+
+'''
 
 @register.filter(name='aclasses')
 def add_classes(value,class_names):

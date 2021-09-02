@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}
+quiz running
+{% endblock title %}
+
+{% block body %}
+
+<ul class="nav nav-pills mb-3" id="question-tab" role="tablist">
+
+    {% for question in question_list %}
+
+    {% if forloop.first %}
+    
+    
+    {% endif %}
+
+    {% if forloop.first %}
+
+    <li class="nav-item" role="presentation">
+        <button class="btn btn-success p-2 m-1 active" style="width:5vw" id="q_id-{{question.id}}-tab" data-bs-toggle="pill"
+            data-bs-target="#q_id-{{question.id}}" type="button" role="tab" aria-controls="q_id-{{question.id}}"
+            aria-selected="true">{{forloop.counter}}</button>
+    </li>
+    
+    {% else %}
+
+
+    <li class="nav-item" role="presentation">
+        <button class="btn btn-success p-2 m-1 " style="width:5vw" id="q_id-{{question.id}}-tab" data-bs-toggle="pill"
+            data-bs-target="#q_id-{{question.id}}" type="button" role="tab" aria-controls="q_id-{{question.id}}"
+            aria-selected="false">{{forloop.counter}}</button>
+    </li>
+
+    {% endif %}
+
+    {% empty %}
+    <li>Sorry, there is no quiz available.</li>
+
+    {% endfor %}
+
+</ul>
+<div class="tab-content" id="question-tabContent">
+
+    {% for question in question_list %}
+
+    {% if forloop.first %}
+    <div class="tab-pane fade active show" id="q_id-{{question.id}}" role="tabpanel" aria-labelledby="q_id-{{question.id}}-tab">
+    
+    {% else %}
+    <div class="tab-pane fade" id="q_id-{{question.id}}" role="tabpanel" aria-labelledby="q_id-{{question.id}}-tab">
+    
+    {% endif %}
+
+
+        <h4> {{question.question_text}}</h4>
+
+
+        <ul>
+            {% for choice in question.choices.all %}
+            {% comment %} i have changes choice_set to choices {% endcomment %}
+
+            <li> {{choice.choice_text}} </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+    {% endfor %}
+
+
+
+
+</div> 
+{% endblock body %}
