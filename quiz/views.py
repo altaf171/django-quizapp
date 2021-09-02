@@ -23,10 +23,17 @@ class StartQuizView(View):
         question_list = Question.objects.order_by('id')
         return render(request,'quiz/quizes.html' ,{'question_list':question_list})
 
+    # def get(self,request,*args, **kwargs):
+    #     form = QuizForm()
+
+        # return render(request,'quiz/quizes.html' ,{'form':form})
+
     
     def post(self, request, *args, **kwargs):
         no_of_correct_answers = 0
-        answered_dict ={}
+        question_list = Question.objects.order_by('id')
+        result_messages = {}
+
         for key,value in request.POST.items():
             if key != 'csrfmiddlewaretoken':
                 question = get_object_or_404(Question,pk=int(key))
@@ -36,14 +43,14 @@ class StartQuizView(View):
 
                 if choice.is_answer :
                     no_of_correct_answers += 1
-                    answered_dict.update({key:'correct'})
+                    result_messages.update({key:'✔️'}) 
                 else:
-                    answered_dict.update({key:'incorrect'})
+                    result_messages.update({key:'❌'}) 
 
-
+                    
         
-        print(answered_dict)
-        return render(request, 'quiz/result.html',{'data':answered_dict, 'correct_answers':no_of_correct_answers})
+        print(result_messages)
+        return render(request, 'quiz/result.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers})
 
 
 def register_request(request):

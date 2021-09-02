@@ -3,7 +3,11 @@
 quiz running
 {% endblock title %}
 
+
+
 {% block body %}
+
+{% load cust_filters %}
 
 <div class="container quizes">
     <form method="POST">
@@ -65,7 +69,7 @@ quiz running
                     {% for choice in question.choices.all %}
                         {% comment %} i have changes choice_set to choices {% endcomment %}
 
-                        <div class="form-check">
+                         <div class="form-check">
                             <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}}"  value ="{{choice.id}}">
                             <label class="form-check-label" for="{{choice.id}}">
                                 {{choice.choice_text}}
@@ -83,7 +87,7 @@ quiz running
 
 
                 </div>
-            
+                
                 
             {% endfor %}
 
@@ -96,8 +100,5 @@ quiz running
 
     </form>
 
-</div>
-
-
-
-    {% endblock body %}
+</div> 
+{% endblock %}

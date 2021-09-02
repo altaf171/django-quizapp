@@ -39,3 +39,11 @@ def addplaceholder(value,placeholder_text):
     # if get_palcehollder_text:
     #     return
     return value.as_widget(attrs={'placeholder':placeholder_text})
+
+@register.filter
+def dictitem(dictionary, key):
+    return dictionary.get(key)
+
+@register.filter
+def member(obj, name):
+    return getattr(obj, name, None)

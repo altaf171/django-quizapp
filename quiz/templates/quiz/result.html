@@ -6,13 +6,19 @@ Test Result
 
 {% block body %}
 
-this is result page
-{% for key, value in data.items %}
-   <p> {{ key }}: {{ value }} </p>
+<div class="card text-center m-auto" style="width: 30rem;">
 
-{% endfor %} 
+  <div class="card-body">
+    <h5 class="card-title">RESULT : {{correct_answers}} </h5>
+    <p class="card-text">
+        {% for key, value in result_messages.items %}
+            <div class="text-info"> {{ key }}: {{ value }} </div>
 
-<p>{{correct_answers}}</p>
+        {% endfor %} 
+    </p>
+    <a href="/startquiz" class="btn btn-outline-success">retry</a>
+  </div>
+</div>
 
 
 {% endblock body %}
