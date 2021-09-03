@@ -75,10 +75,10 @@
 
                             {% comment %} result message for each question {% endcomment %}
                                 {% if result_messages %}
-                                    {% if result_messages|dictitem:question.id == ' ' %}
+                                    {% if result_messages|dictitem:forloop.counter == ' ' %}
                                         <h5 class="text-danger">You havn't attempted this question!</h5>
                                     {% else %}
-                                        <h5>{{result_messages|dictitem:question.id}}</h5>
+                                        <h5>{{result_messages|dictitem:forloop.counter}}</h5>
                                     {% endif %}
                                 
                                 {% endif %}
@@ -88,7 +88,8 @@
                             {% for choice in question.choices.all %} 
 
                                 <div class="form-check pt-1">
-                                    <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}}"  value ="{{choice.id}}">
+                                {% comment %} parent loop to question no {% endcomment %}
+                                    <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}},{{forloop.parentloop.counter}}"  value ="{{choice.id}}">
                                     <label class="form-check-label" for="{{choice.id}}">
                                         {{choice.choice_text}}
                                     </label>

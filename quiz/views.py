@@ -37,24 +37,33 @@ class StartQuizView(View):
         
         no_of_correct_answers = 0
         question_list = Question.objects.order_by('id')
-        result_messages = {}
+        no_of_questions = question_list.count()
+        result_messages = {k:' ' for k in range(1,no_of_questions)}
+        print(result_messages)
 
         for key,value in request.POST.items():
+
             if key != 'csrfmiddlewaretoken':
-                question = get_object_or_404(Question,pk=int(key))
+
+                key = list(map(int,list(key.split(','))))  # split key for question id and question from forloop in template
+                print('key 0 : ', key[0])
+                print('key 1 : ', key[1])
+
+                question = get_object_or_404(Question,pk=key[0])
                 choice =  question.choices.get(pk=int(value))
                 print(question)
                 print(choice.is_answer)
 
                 if choice.is_answer :
                     no_of_correct_answers += 1
-                    result_messages.update({key:'✔️'}) 
+                    result_messages.update({key[1]:'✔️'})  # key[1] question number from forloop in template
                 else:
-                    result_messages.update({key:'❌'}) 
+                    result_messages.update({key[1]:'❌'}) 
 
                     
         
         print(result_messages)
+        
         return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list})
 
 
