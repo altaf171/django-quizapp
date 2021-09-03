@@ -50,7 +50,7 @@ class StartQuizView(View):
                     
         
         print(result_messages)
-        return render(request, 'quiz/result.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers})
+        return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list})
 
 
 def register_request(request):

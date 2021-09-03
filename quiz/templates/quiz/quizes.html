@@ -1,104 +1,129 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}
-quiz running
+    quiz running
 {% endblock title %}
 
 
 
 {% block body %}
 
-{% load cust_filters %}
+    {% load cust_filters %}
 
-<div class="container quizes">
-    <form method="POST">
-        {% csrf_token %}
+    <div class="container quizes">
+    
+        <form method="POST">
+            {% csrf_token %}
 
-        <ul class="nav nav-pills mb-3" id="question-tab" role="tablist">
+            {% if question_list %}
+            
+                <ul class="nav nav-pills mb-3" id="question-tab" role="tablist">
 
-            {% for question in question_list %}
+                    {% for question in question_list %}
 
-            {% if forloop.first %}
+                    {% comment %} this for first question to be selected automatically  {% endcomment %}
+                    {% if forloop.first %}
 
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link p-2 m-1 active" style="width:5vw" id="q_id-{{question.id}}-tab"
+                            data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
+                            aria-controls="q_id-{{question.id}}" aria-selected="true">{{forloop.counter}}</button>
+                    </li>
 
-            {% endif %}
-
-            {% if forloop.first %}
-
-            <li class="nav-item" role="presentation">
-                <button class="btn btn-success p-2 m-1 active" style="width:5vw" id="q_id-{{question.id}}-tab"
-                    data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
-                    aria-controls="q_id-{{question.id}}" aria-selected="true">{{forloop.counter}}</button>
-            </li>
-
-            {% else %}
+                    {% else %}
 
 
-            <li class="nav-item" role="presentation">
-                <button class="btn btn-success p-2 m-1 " style="width:5vw" id="q_id-{{question.id}}-tab"
-                    data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
-                    aria-controls="q_id-{{question.id}}" aria-selected="false">{{forloop.counter}}</button>
-            </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link p-2 m-1 " style="width:5vw" id="q_id-{{question.id}}-tab"
+                            data-bs-toggle="pill" data-bs-target="#q_id-{{question.id}}" type="button" role="tab"
+                            aria-controls="q_id-{{question.id}}" aria-selected="false">{{forloop.counter}}</button>
+                    </li>
 
-            {% endif %}
-
-            {% empty %}
-            <li>Sorry, there is no quiz available.</li>
-
-            {% endfor %}
-
-        </ul>
-
-        <div class="tab-content" id="question-tabContent">
-
-            {% for question in question_list %}
-
-                {% if forloop.first %}
-
-                    <div class="tab-pane fade active show" id="q_id-{{question.id}}" role="tabpanel"
-                    aria-labelledby="q_id-{{question.id}}-tab">
-
-                {% else %}
-                    <div class="tab-pane fade" id="q_id-{{question.id}}" role="tabpanel"
-                        aria-labelledby="q_id-{{question.id}}-tab">
-
-                {% endif %}
-
-                    <h5> Q. {{question.question_text}}</h5>
-
-                    <p>choices:</p>
-                    {% for choice in question.choices.all %}
-                        {% comment %} i have changes choice_set to choices {% endcomment %}
-
-                         <div class="form-check">
-                            <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}}"  value ="{{choice.id}}">
-                            <label class="form-check-label" for="{{choice.id}}">
-                                {{choice.choice_text}}
-                            </label>
-                        </div>
+                    {% endif %}
 
                     {% endfor %}
 
+                </ul>
 
-                {% if forloop.last %}
-                
-                    <button type="submit" class="btn btn-outline-primary mt-5">Submit</button>
-                
-                {% endif %}
+                <div class="tab-content" id="question-tabContent">
 
+                    {% for question in question_list %}
+
+                        {% if forloop.first %}
+
+                            <div class="tab-pane fade active show" id="q_id-{{question.id}}" role="tabpanel"
+                            aria-labelledby="q_id-{{question.id}}-tab">
+
+                        {% else %}
+                            <div class="tab-pane fade" id="q_id-{{question.id}}" role="tabpanel"
+                                aria-labelledby="q_id-{{question.id}}-tab">
+
+                        {% endif %}
+
+                            <h5> Q.{{forloop.counter}} {{question.question_text}}</h5>
+
+                            {% comment %} result message for each question {% endcomment %}
+                                {% if result_messages %}
+                                    {% if result_messages|dictitem:question.id == ' ' %}
+                                        <h5 class="text-danger">You havn't attempted this question!</h5>
+                                    {% else %}
+                                        <h5>{{result_messages|dictitem:question.id}}</h5>
+                                    {% endif %}
+                                
+                                {% endif %}
+
+                            <p>choices:</p>
+                                {% comment %} i have changes choice_set to choices {% endcomment %}
+                            {% for choice in question.choices.all %} 
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}}"  value ="{{choice.id}}">
+                                    <label class="form-check-label" for="{{choice.id}}">
+                                        {{choice.choice_text}}
+                                    </label>
+                                </div>
+
+                            {% endfor %}
+
+                        {% comment %} This for last question to to add submit button below  {% endcomment %}
+                        {% if forloop.last %}
+                        
+                            <button type="submit" class="btn btn-outline-primary mt-5">Submit</button>
+                        
+                        {% endif %}
+
+                        </div>
+                        
+                    {% endfor %}
 
                 </div>
-                
-                
-            {% endfor %}
+
+            {% endif %}
+
+        </form>
+
+    </div> 
+
+    {% comment %} Modal for result to shown {% endcomment %}
+    {% include 'quiz/includes/result-modal.html' %}
+
+
+    {% comment %} if result is available button will be added and button will be clicked via javascript to show result in pop-up modal {% endcomment %}
+
+    {% if result_messages %}
+    <button type="button" id="result-show" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#resultShowModal" hidden></button>
+
+    {% endif %}
+
+
+{% endblock body %}
 
 
 
-            
-
-        </div>
 
 
-    </form>
 
-</div> 
-{% endblock %}
+{% block link_js %}
+    <script src="{% static 'quiz/js/script.js' %}"></script>
+{% endblock link_js %}
