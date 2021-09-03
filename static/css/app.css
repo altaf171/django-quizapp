@@ -11142,6 +11142,10 @@ a.nav-link {
   margin: 0 0.75rem 0 0.75rem;
 }
 
+#logout {
+  color: red !important;
+}
+
 .home-page.container {
   min-height: 80vh;
   display: grid;

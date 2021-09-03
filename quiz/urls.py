@@ -13,9 +13,9 @@ urlpatterns = [
     path('userlogin/',views.user_login_for_quiz,name='user-login-quiz'),
     path('logout/',views.user_logout,name='logout'),
 
-    path('register',views.register_request,name='register'),
-    path('login',views.login_page,name='login'),
-    path('userpage',views.userpage,name='userpage')
+    # path('register',views.register_request,name='register'),
+    # path('login',views.login_page,name='login'),
+    # path('userpage',views.userpage,name='userpage')
 
 ]
 

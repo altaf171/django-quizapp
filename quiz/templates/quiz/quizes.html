@@ -10,7 +10,7 @@
     {% if username %}
         <h5 class="nav-link"> user: {{username}}</h5>
 
-        <a class="nav-link" href="{% url 'logout' %}">LOG-OUT</a>
+        <a class="nav-link" id="logout" href="{% url 'logout' %}">LOG-OUT</a>
 
     {% endif %}
 

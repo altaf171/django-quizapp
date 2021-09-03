@@ -4,10 +4,10 @@ from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.contrib import messages
-from django.views.generic.base import TemplateView
+
 
 from .forms import NewUserForm
-from .models import Choice, Question
+from .models import Question
 # Create your views here.
 
 
