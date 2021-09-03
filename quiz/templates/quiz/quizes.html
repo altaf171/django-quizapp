@@ -6,6 +6,16 @@
 {% endblock title %}
 
 
+{% block navbaritem %}
+    {% if username %}
+        <h5 class="nav-link"> user: {{username}}</h5>
+
+        <a class="nav-link" href="{% url 'logout' %}">LOG-OUT</a>
+
+    {% endif %}
+
+    
+{% endblock navbaritem %}
 
 {% block body %}
 
@@ -77,7 +87,7 @@
                                 {% comment %} i have changes choice_set to choices {% endcomment %}
                             {% for choice in question.choices.all %} 
 
-                                <div class="form-check">
+                                <div class="form-check pt-1">
                                     <input class="form-check-input" type="radio" id="{{choice.id}}" name="{{question.id}}"  value ="{{choice.id}}">
                                     <label class="form-check-label" for="{{choice.id}}">
                                         {{choice.choice_text}}
