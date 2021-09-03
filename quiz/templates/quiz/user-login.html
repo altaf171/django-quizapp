@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+    Enter Your Name
+
+{% endblock title %}
+
+{% block body %}
+<div class="container login">
+
+	<div class="card ">
+
+		<form method="POST">
+		{% csrf_token %}
+
+			<h4 class="card-title">Enter Your Nmae To Take Quiz</h4>
+			<div class="card-body">
+				<div class="input-group mb-3">
+					<span class="input-group-text material-icons material-icons-outlined">perm_identity</span>
+                    <input class="form-control" type="text" name="username" placeholder="Enter Name..." required >
+				</div>
+				
+				<button type="submit" class="btn btn-primary">START</button>
+
+		</form>
+	</div>
+</div>
+
+
+</div>
+
+
+
+
+{% endblock body %}
