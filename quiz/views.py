@@ -20,8 +20,12 @@ def starting_page(request):
 
 class StartQuizView(View):
     def get(self, request, *args, **kwargs):
-        question_list = Question.objects.order_by('id')
-        return render(request,'quiz/quizes.html' ,{'question_list':question_list})
+        if request.session.has_key('username'):
+            username = request.session['username']
+            question_list = Question.objects.order_by('id')
+            return render(request,'quiz/quizes.html' ,{'question_list':question_list, 'username':username})
+        else:
+            return redirect('user-login-quiz')
 
     # def get(self,request,*args, **kwargs):
     #     form = QuizForm()
@@ -30,6 +34,7 @@ class StartQuizView(View):
 
     
     def post(self, request, *args, **kwargs):
+        
         no_of_correct_answers = 0
         question_list = Question.objects.order_by('id')
         result_messages = {}
@@ -51,6 +56,34 @@ class StartQuizView(View):
         
         print(result_messages)
         return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list})
+
+
+def user_login_for_quiz(request):
+    if request.method == 'POST':
+        if request.POST.__contains__('username'):
+            username = request.POST['username']
+            request.session['username'] = username
+            request.session.set_expiry(864000) #10 days
+            return redirect('start-quiz')
+
+    #redirect to start quiz if session is allready set
+    if request.session.has_key('username'):
+        return redirect('start-quiz')
+
+    
+    return render(request, 'quiz/user-login.html')
+
+
+def user_logout(request):
+    if request.session.has_key('username'):
+        try:
+            del request.session['username']
+        except: 
+            print('error deleting user')
+    
+    return redirect('starting-page')
+
+
 
 
 def register_request(request):
