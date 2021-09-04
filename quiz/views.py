@@ -50,7 +50,7 @@ class StartQuizView(View):
 
         print(result_messages)
         
-        return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list})
+        return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list,'username':request.session['username']})
 
 #login page
 def user_login_for_quiz(request):
