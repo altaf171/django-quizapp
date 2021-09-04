@@ -1,12 +1,5 @@
-from typing import List
-from django.contrib.auth import authenticate, login
-from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from django.contrib import messages
-
-
-from .forms import NewUserForm
 from .models import Question
 # Create your views here.
 
@@ -26,11 +19,6 @@ class StartQuizView(View):
             return render(request,'quiz/quizes.html' ,{'question_list':question_list, 'username':username})
         else:
             return redirect('user-login-quiz')
-
-    # def get(self,request,*args, **kwargs):
-    #     form = QuizForm()
-
-        # return render(request,'quiz/quizes.html' ,{'form':form})
 
     
     def post(self, request, *args, **kwargs):
@@ -60,13 +48,11 @@ class StartQuizView(View):
                 else:
                     result_messages.update({key[1]:'❌'}) 
 
-                    
-        
         print(result_messages)
         
-        return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list})
+        return render(request, 'quiz/quizes.html',{'result_messages':result_messages, 'correct_answers':no_of_correct_answers, 'question_list':question_list,'username':request.session['username']})
 
-
+#login page
 def user_login_for_quiz(request):
     if request.method == 'POST':
         if request.POST.__contains__('username'):
@@ -82,7 +68,7 @@ def user_login_for_quiz(request):
     
     return render(request, 'quiz/user-login.html')
 
-
+#logout function delete session data
 def user_logout(request):
     if request.session.has_key('username'):
         try:
@@ -91,32 +77,3 @@ def user_logout(request):
             print('error deleting user')
     
     return redirect('starting-page')
-
-
-
-
-def register_request(request):
-    if request.method == 'POST':
-        form = NewUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request,'Account was created succesfully for ' + user)
-            return redirect('login')
-    form = NewUserForm()
-    return render(request, 'quiz/register.html', context={'form': form})
-
-def login_page(request):
-    if request.method == 'POST':
-       username = request.POST.get('username')
-       password = request.POST.get('password')
-
-       user = authenticate(request,username=username, password=password)
-       if user is not None:
-            login(request, user)
-            return redirect('userpage')
-    context = {}
-    return render(request, 'quiz/login.html', context)
-
-def userpage(request):
-    return render(request, 'quiz/test.html')

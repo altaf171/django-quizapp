@@ -11,7 +11,7 @@
             {% if result_messages %}
                 <h5 >Total Correct Answers : {{correct_answers}} </h5>
 
-                <p class="pt-3"> 
+                <p> 
                     {% for q,result in result_messages.items %}
                         {% if result != ' ' %}
                             <span> {{forloop.counter}} : </span> {{result}}
