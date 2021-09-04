@@ -115,26 +115,31 @@
 
         </form>
 
+        {% if result_messages %}
+        
+        <a href="{% url 'start-quiz' %}" class="btn btn-outline-primary mt-5 m-auto">RETRY</a>
+
+        {% endif %}
+
+
     </div> 
 
+   
     {% comment %} Modal for result to shown {% endcomment %}
+
     {% include 'quiz/includes/result-modal.html' %}
 
 
     {% comment %} if result is available button will be added and button will be clicked via javascript to show result in pop-up modal {% endcomment %}
 
     {% if result_messages %}
-    <button type="button" id="result-show" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#resultShowModal" hidden></button>
+
+     <button type="button"  id="result-show" data-bs-toggle="modal" data-bs-target="#resultShowModal" class="d-none"></button>
 
     {% endif %}
 
 
 {% endblock body %}
-
-
-
-
-
 
 {% block link_js %}
     <script src="{% static 'quiz/js/script.js' %}"></script>

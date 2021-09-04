@@ -4,8 +4,9 @@
   --clr-body-bg: white;
   --clr-green-bg: hsl(143, 90%, 46%);
   --clr-text: hsl(143, 90%, 46%);
+  --clr-green-light: hsla(143, 90%, 46%, 0.644);
   --clr-btn-text: hsl(0, 0%, 100%);
-  --clr-radio-btn-checked:hsla(143, 90%, 46%, 0.322);
+  --clr-radio-btn-checked: hsla(143, 90%, 46%, 0.322);
   --clr-btn-bg: hsla(120, 90%, 88%, 0.5);
 }
 
@@ -134,12 +135,22 @@ a.nav-link {
   align-items: center;
 }
 
-#resultShowModal {
-  color: var(--clr-text) !important;
-}
 #resultShowModal span {
   font-size: large;
   font-weight: bold;
+}
+#resultShowModal * {
+  color: var(--clr-text);
+}
+#resultShowModal .modal-footer * {
+  color: var(--clr-btn-text);
+  background-color: var(--clr-green-bg) !important;
+}
+#resultShowModal .modal-footer *.active, #resultShowModal .modal-footer *:hover, #resultShowModal .modal-footer *:focus {
+  opacity: 0.5;
+  box-shadow: 9px 14px 33px 11px rgba(0, 0, 0, 0.61);
+  -webkit-box-shadow: 9px 14px 33px 11px rgba(0, 0, 0, 0.61);
+  -moz-box-shadow: 9px 14px 33px 11px rgba(0, 0, 0, 0.61);
 }
 
 .login * {
@@ -167,6 +178,18 @@ a.nav-link {
   text-align: start;
   padding: 1.5rem;
   padding-bottom: 3rem;
+}
+.login .input-group:hover {
+  box-shadow: none;
+  box-shadow: 0px 0px 20px 5px var(--clr-green-light);
+  -webkit-box-shadow: 0px 0px 20px 5px var(--clr-green-light);
+  -moz-box-shadow: 0px 0px 20px 5px var(--clr-green-light);
+}
+.login .input-group *:focus, .login .input-group *:hover {
+  box-shadow: none;
+  box-shadow: 0px 0px 20px 5px var(--clr-green-light);
+  -webkit-box-shadow: 0px 0px 20px 5px var(--clr-green-light);
+  -moz-box-shadow: 0px 0px 20px 5px var(--clr-green-light);
 }
 
 /*# sourceMappingURL=style.css.map */
